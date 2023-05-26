@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class OrderDetailsDAOImpl implements CRUDDAO<OrderDetailDTO,String>{
+public class OrderDetailsDAOImpl implements OrderDetailDAO{
     @Override
     public ArrayList<OrderDetailDTO> getAll() throws SQLException, ClassNotFoundException {
         return null;
@@ -60,12 +60,5 @@ public class OrderDetailsDAOImpl implements CRUDDAO<OrderDetailDTO,String>{
     public String generateOID() throws SQLException, ClassNotFoundException {
         return null;
     }
-
-
-  /*  @Override
-    public boolean saveOrderDetails(OrderDetailDTO dto) throws SQLException, ClassNotFoundException {
-        String sql = SQLUtil.execute("INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)");
-        return SQLUtil.execute(sql, dto.getOid(), dto.getItemCode(), dto.getUnitPrice(), dto.getQty());
-    }*/
 
 }
