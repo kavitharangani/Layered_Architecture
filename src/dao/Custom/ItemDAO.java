@@ -1,9 +1,6 @@
-package dao;
+package dao.Custom;
 
 import model.ItemDTO;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 public interface ItemDAO extends CRUDDAO<ItemDTO,String> {
 

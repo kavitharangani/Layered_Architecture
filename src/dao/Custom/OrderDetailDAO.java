@@ -1,9 +1,6 @@
-package dao;
+package dao.Custom;
 
-import model.ItemDTO;
 import model.OrderDetailDTO;
-
-import java.sql.SQLException;
 
 public interface OrderDetailDAO extends CRUDDAO<OrderDetailDTO,String>{
 }
