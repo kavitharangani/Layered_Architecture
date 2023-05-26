@@ -2,6 +2,7 @@ package dao.Custom.Impl;
 
 import dao.Custom.OrderDetailDAO;
 import dao.SQLUtil;
+import model.CustomerDTO;
 import model.OrderDetailDTO;
 
 import java.sql.SQLException;

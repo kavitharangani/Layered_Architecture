@@ -2,6 +2,7 @@ package dao.Custom.Impl;
 
 import dao.Custom.ItemDAO;
 import dao.SQLUtil;
+import model.CustomerDTO;
 import model.ItemDTO;
 
 import java.sql.*;
@@ -78,4 +79,5 @@ public class ItemDAOImpl implements ItemDAO {
     public String generateOID() throws SQLException, ClassNotFoundException {
         return null;
     }
+
 }

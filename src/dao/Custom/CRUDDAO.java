@@ -1,7 +1,6 @@
 package dao.Custom;
 
 import model.CustomerDTO;
-import model.ItemDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,8 +15,6 @@ public interface CRUDDAO <T ,ID>{
 
     public boolean exist(ID id) throws SQLException, ClassNotFoundException ;
 
-    public String generateNewID() throws SQLException, ClassNotFoundException ;
-
     public  boolean delete(ID id) throws SQLException, ClassNotFoundException;
 
     public T search(ID id) throws SQLException, ClassNotFoundException ;
@@ -28,5 +25,5 @@ public interface CRUDDAO <T ,ID>{
 
     String generateOID() throws SQLException, ClassNotFoundException ;
 
-
+    String generateNewID()throws SQLException, ClassNotFoundException;
 }
