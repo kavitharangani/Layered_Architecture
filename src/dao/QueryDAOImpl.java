@@ -1,9 +1,8 @@
 package dao;
 
 public class QueryDAOImpl implements QueryDAO{
-
     @Override
-    public void searchQuery() {
-
+    public void saveQuery() {
+        
     }
 }
