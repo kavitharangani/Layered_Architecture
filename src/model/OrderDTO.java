@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * @since : 0.1.0
  **/
 
-public class OrderDTO extends ItemDTO {
+public class OrderDTO {
     private String orderId;
     private LocalDate orderDate;
     private String customerId;
