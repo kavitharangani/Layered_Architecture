@@ -1,42 +1,50 @@
-package bo.Custom.Impl;
+package bo.custom.impl;
 
-import bo.Custom.ItemBO;
-import dao.Custom.Impl.ItemDAOImpl;
-import dao.Custom.ItemDAO;
+import bo.custom.SuperBO;
+import dao.DAOFactory;
+import dao.custom.ItemDAO;
+import dao.custom.impl.ItemDAOImpl;
 import model.ItemDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ItemBOImpl implements ItemBO {
-    public ArrayList<ItemDTO> getAllItem() throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO =new ItemDAOImpl();
-        return itemDAO.getAll();
+public class ItemBOImpl implements SuperBO {
+    ItemDAO itemDAO = (ItemDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ITEM);
+
+    public ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException {
+        ItemDAO itemDAO = new ItemDAOImpl();
+       return itemDAO.getAll();
     }
+
+
+    public boolean deleteItem(String code) throws SQLException, ClassNotFoundException {
+        ItemDAO itemDAO = new ItemDAOImpl();
+        return itemDAO.delete(code);
+    }
+
 
     public boolean saveItem(ItemDTO dto) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO =new ItemDAOImpl();
-        return itemDAO.save(dto);
-    }
-    public boolean deleteItem(String id) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO =new ItemDAOImpl();
-        return itemDAO.delete(id);
-    }
-    public boolean updateItem(String id) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO =new ItemDAOImpl();
-        return itemDAO.delete(id);
-    }
-    public boolean existItem(String id) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO =new ItemDAOImpl();
-        return itemDAO.exist(id);
-    }
-    public String generateNewCode() throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO =new ItemDAOImpl();
-        return itemDAO.generateNewCode();
+        ItemDAO itemDAO = new ItemDAOImpl();
+        return itemDAO.add(dto);
     }
 
-    public ItemDTO searchItem(String id) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO =new ItemDAOImpl();
-        return itemDAO.search(id);
+
+    public boolean updateItem(ItemDTO dto) throws SQLException, ClassNotFoundException {
+        ItemDAO itemDAO = new ItemDAOImpl();
+        return itemDAO.update(dto);
     }
+
+
+    public boolean existItem(String code) throws SQLException, ClassNotFoundException {
+        ItemDAO itemDAO = new ItemDAOImpl();
+        return itemDAO.exist(code);
+    }
+
+
+    public String generateNewCode() throws SQLException, ClassNotFoundException {
+        ItemDAO itemDAO = new ItemDAOImpl();
+        return itemDAO.generateNewID();
+    }
+
 }

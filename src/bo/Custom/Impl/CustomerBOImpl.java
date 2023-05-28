@@ -1,48 +1,29 @@
-package bo.Custom.Impl;
+package bo.custom.impl;
 
-import bo.Custom.CustomerBO;
-import dao.Custom.CustomerDAO;
-import dao.Custom.Impl.CustomerDAOImpl;
-import model.CustomerDTO;
+import bo.custom.SuperBO;
+import dao.DAOFactory;
+import dao.custom.CustomerDAO;
+import dao.custom.impl.CustomerDAOImpl;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-public class CustomerBOImpl implements CustomerBO {
-    public ArrayList<CustomerDTO> getAllCustomer() throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAOImpl();
-        return customerDAO.getAll();
-    }
-    public boolean saveCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO=new CustomerDAOImpl();
-        return customerDAO.save(dto);
+public class CustomerBOImpl implements SuperBO {
 
-    }
-    public boolean addCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO=new CustomerDAOImpl();
-       // dto.setName(dto.getName()+dto.getAddress());
-        return customerDAO.add(dto);
+    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
 
-    }
-    public boolean updateCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAOImpl();
-        return customerDAO.update(dto);
-    }
+
     public boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
         CustomerDAO customerDAO = new CustomerDAOImpl();
         return customerDAO.exist(id);
     }
-    public boolean deleteCudstomer(String id) throws SQLException, ClassNotFoundException {
+
+    public boolean deleteCustomer(String id) throws SQLException, ClassNotFoundException {
         CustomerDAO customerDAO = new CustomerDAOImpl();
         return customerDAO.delete(id);
     }
-    public String genarateNewId() throws SQLException, ClassNotFoundException {
+
+    public String generateNewCustomerID() throws SQLException, ClassNotFoundException {
         CustomerDAO customerDAO = new CustomerDAOImpl();
         return customerDAO.generateNewID();
-    }
-
-    public CustomerDTO searchCustomer(String id) throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAOImpl();
-        return customerDAO.search(id);
     }
 }
