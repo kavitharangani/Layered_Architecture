@@ -1,14 +1,11 @@
 package bo.custom.impl;
 
-import bo.custom.SuperBO;
+import bo.custom.PurchaseOrderBO;
+import dao.DAOFactory;
 import dao.custom.CustomerDAO;
 import dao.custom.ItemDAO;
 import dao.custom.OrderDAO;
 import dao.custom.OrderDetailsDAO;
-import dao.custom.impl.CustomerDAOImpl;
-import dao.custom.impl.ItemDAOImpl;
-import dao.custom.impl.OrderDAOImpl;
-import dao.custom.impl.OrderDetailsDAOImpl;
 import db.DBConnection;
 import model.CustomerDTO;
 import model.ItemDTO;
@@ -21,41 +18,55 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PurchaseOrderBOImpl implements SuperBO {
+public class PurchaseOrderBOImpl implements PurchaseOrderBO {
+
+    CustomerDAO customerDAO = (CustomerDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.CUSTOMER);
+    ItemDAO itemDAO = (ItemDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ITEM);
+    OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
+    OrderDetailsDAO orderDetailsDAO = (OrderDetailsDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER_DETAILS);
+
+    @Override
+    public CustomerDTO searchCustomer(String id) throws SQLException, ClassNotFoundException {
+        return customerDAO.search(id);
+    }
+
+
+    @Override
     public ItemDTO searchItem(String code) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.search(code);
     }
 
+    @Override
     public boolean existItem(String code) throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.exist(code);
     }
+
+    @Override
     public boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAOImpl();
         return customerDAO.exist(id);
     }
+
+    @Override
     public String generateOrderID() throws SQLException, ClassNotFoundException {
-        OrderDAO orderDAO = new OrderDAOImpl();
         return orderDAO.generateNewID();
     }
+
+    @Override
     public ArrayList<CustomerDTO> getAllCustomers() throws SQLException, ClassNotFoundException {
-        CustomerDAO customerDAO = new CustomerDAOImpl();
-        return customerDAO.getAll();
+       return customerDAO.getAll();
     }
 
+    @Override
     public ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException {
-        ItemDAO itemDAO = new ItemDAOImpl();
         return itemDAO.getAll();
     }
 
+
+    @Override
     public boolean purchaseOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails){
-        /*Transaction*/
         Connection connection = null;
         try {
             connection = DBConnection.getDbConnection().getConnection();
-            //Check order id already exist or not
-            OrderDAO orderDAO = new OrderDAOImpl();
             boolean b1 = orderDAO.exist(orderId);
             /*if order id already exist*/
             if (b1) {
@@ -65,15 +76,12 @@ public class PurchaseOrderBOImpl implements SuperBO {
             connection.setAutoCommit(false);
             //Save the Order to the order table
             boolean b2 = orderDAO.add(new OrderDTO(orderId, orderDate, customerId));
-
             if (!b2) {
                 connection.rollback();
                 connection.setAutoCommit(true);
                 return false;
             }
 
-            // add data to the Order Details table
-            OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
             for (OrderDetailDTO detail : orderDetails) {
                 boolean b3 = orderDetailsDAO.add(detail);
                 if (!b3) {
@@ -86,7 +94,6 @@ public class PurchaseOrderBOImpl implements SuperBO {
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
                 //update item
-                ItemDAO itemDAO = new ItemDAOImpl();
                 boolean b = itemDAO.update(new ItemDTO(item.getCode(), item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
 
                 if (!b) {
@@ -107,10 +114,10 @@ public class PurchaseOrderBOImpl implements SuperBO {
         return false;
     }
 
+    @Override
     public ItemDTO findItem(String code) {
         try {
-            PurchaseOrderBOImpl purchaseOrderBO = new PurchaseOrderBOImpl();
-            return purchaseOrderBO.searchItem(code);
+            return itemDAO.search(code);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);
         } catch (ClassNotFoundException e) {
@@ -119,5 +126,3 @@ public class PurchaseOrderBOImpl implements SuperBO {
         return null;
     }
 }
-
-

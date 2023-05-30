@@ -1,4 +1,4 @@
-package bo.custom;
+package bo;
 
 import bo.custom.impl.CustomerBOImpl;
 import bo.custom.impl.ItemBOImpl;
@@ -6,29 +6,28 @@ import bo.custom.impl.PurchaseOrderBOImpl;
 
 public class BOFactory {
     private static BOFactory boFactory;
-
-    private BOFactory() {
+    private BOFactory(){
+    }
+    public static BOFactory getBoFactory(){
+        return (boFactory==null)? boFactory=new BOFactory() : boFactory;
     }
 
-    public static BOFactory getBoFactory() {
-        return (boFactory == null) ? boFactory = new BOFactory() : boFactory;
+    public enum BOTypes{
+        CUSTOMER,ITEM,PO
     }
 
-    public enum BOTypes {
-        CUSTOMER, ITEM, PURCHASEORDER
-    }
-
-    public SuperBO getBO(BOFactory.BOTypes types) {
-        switch (types) {
+    //Object creation logic for BO objects
+    public SuperBO getBO(BOTypes types){
+        switch (types){
             case CUSTOMER:
                 return new CustomerBOImpl();
             case ITEM:
                 return new ItemBOImpl();
-            case PURCHASEORDER:
+            case PO:
                 return new PurchaseOrderBOImpl();
-
             default:
                 return null;
         }
     }
+
 }
