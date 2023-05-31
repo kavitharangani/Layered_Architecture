@@ -13,17 +13,16 @@ public class BOFactory {
     }
 
     public enum BOTypes{
-        CUSTOMER,ITEM,PO
+        CUSTOMER,ITEM,PURCHASEO
     }
 
-    //Object creation logic for BO objects
     public SuperBO getBO(BOTypes types){
         switch (types){
             case CUSTOMER:
                 return new CustomerBOImpl();
             case ITEM:
                 return new ItemBOImpl();
-            case PO:
+            case PURCHASEO:
                 return new PurchaseOrderBOImpl();
             default:
                 return null;

@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author : Sanu Vithanage
@@ -14,10 +16,18 @@ public class OrderDetailDTO implements Serializable {
     private String itemCode;
     private int qty;
     private BigDecimal unitPrice;
+    private String orderId;
+    private LocalDate orderDate;
+    private String customerId;
 
-    public OrderDetailDTO() {
+    private List<OrderDetailDTO> orderDetails;
+
+    public void OrderDTO(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails) {
+        this.orderId = orderId;
+        this.orderDate = orderDate;
+        this.customerId = customerId;
+        this.orderDetails = orderDetails;
     }
-
     public OrderDetailDTO(String itemCode, int qty, BigDecimal unitPrice) {
         this.itemCode = itemCode;
         this.qty = qty;
